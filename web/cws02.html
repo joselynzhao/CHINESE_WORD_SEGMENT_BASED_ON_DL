@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpart</title>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            border:0;
+        }
+        body {
+            width: 100%;
+            height: 550px;
+            background-color: coral;
+            background: url("timg.jpeg");
+        }
+        .main{
+            width:80%;
+            margin:0 auto;
+            height: 460px;
+            background-color: darkseagreen;
+            padding:20px;
+            padding-top: 10px;
+            opacity:0.9;
+            box-shadow: darkgray;
+        }
+
+        button{
+            width:80%;
+            height: 30px;
+            margin-top:22px;
+            margin-left:10%;
+            border-radius: 10%;
+
+        }
+        .header{
+            width:100%;
+            height:70px;
+            padding-top:90px;
+            /*background-color: cyan;*/
+        }
+        .header h1{
+            text-align: center;
+            color: white;
+            /*margin-top:20px;*/
+        }
+         .footer{
+            width:100%;
+            height:100px;
+            margin-top:50px;
+            /*background-color: cyan;*/
+        }
+        .footer p{
+            text-align: center;
+            color: white;
+        }
+        .funBar{
+            position: fixed;
+            width:100%;
+            height:40px;
+            background-color: white;
+            box-shadow: gray;
+            opacity:0.9;
+            z-index: 999;
+
+        }
+        ul{
+            width:80%;
+            height:100%;
+            margin:0 auto;
+        }
+        li{
+            display: inline-block;
+            height:40px;
+            width:120px;
+            margin-left: -5px;
+
+            /*border: solid 1px gainsboro;*/
+            /*border-radius: 10px;*/
+        }
+        .li_name{
+            width: 100%;
+            height:30px;
+            margin-top:5px;
+            text-align: center;
+            color: grey;
+        }
+        .li_flag{
+            width:100%;
+            height:5px;
+            background-color: green;
+            opacity:0;
+        }
+        .li_name:hover{
+            color: green;
+        }
+        .current{
+            color: green;
+            opacity:1;
+        }
+
+           /*弹出框样式 ——start*/
+        #msg{
+            width:300px;
+            position: fixed;
+            z-index:999;
+            top: 49%;
+            margin-top:-80px;
+            left:50%;
+            margin-left:-133px;
+            background:#fff;
+            box-shadow:5px 5px 8px #999;
+            font-size:17px;
+            color: green;
+            border:1px solid #f8f8f8;
+            text-align: center;
+            line-height: 2rem;
+            display:inline-block;
+            padding-bottom:20px;
+            border-radius:10px;
+        }
+        #msg_top{
+            background: darkseagreen;
+            /*background:#f8f8f8;*/
+            padding:5px 15px 5px 20px;
+            text-align:left;
+
+        }
+        #msg_top span{
+            font-size:18px;
+            float:right;
+            cursor:pointer;
+        }
+        #msg_cont{
+            padding:15px 20px 20px;
+            text-align:left;
+        }
+        .msg_clear{
+            display:inline-block;
+            color:#fff;
+            padding:1px 15px;
+            background: green;
+            border-radius:2px;
+            float:right;
+            margin-right:15px;
+            cursor:pointer;
+        }
+
+    </style>
+</head>
+<body>
+        <div class="funBar">
+            <ul>
+                <li id="home_div">
+                    <div class="li_name  home_div current">Home</div>
+                    <div class="li_flag  home_div current"></div>
+                </li>
+                <li id="intr_div">
+                    <div class="li_name intr_div">Introduce</div>
+                    <div class="li_flag intr_div"></div>
+                </li>
+                <li id="eval_div">
+                    <div class="li_name eval_div" >Evaluate</div>
+                    <div class="li_flag eval_div"></div>
+                </li>
+                <li id="deve_div">
+                    <div class="li_name deve_div">Develop</div>
+                    <div class="li_flag deve_div"></div>
+                </li>
+                <li id="about_div">
+                    <div class="li_name about_div">About</div>
+                    <div class="li_flag about_div"></div>
+                </li>
+            </ul>
+        </div>
+    <div class="header">
+        <h1>基于深度学习的中文分词系统Sunpart</h1>
+    </div>
+    <div class="main">
+                <!--内联框架，网页中嵌套另外一个网页-->
+        <iframe id="mainFrame" name="mainFrame" src="home.html" width="100%" height="100%" frameborder="0"></iframe>
+
+    </div>
+    <div class="footer">
+        <p>CopyRight@2018.03.01-2018.06.30</p>
+        <p>ZhaoJing-20144674-CQU</p>
+    </div>
+</body>
+<script type="text/javascript">
+    function gotoHtml(s){
+        window.open(s,'mainFrame');
+    }
+      //弹出框
+    function myalert(e){
+        $("body").append('<div id="msg"><div id="msg_top">提示<span class="msg_close">×</span></div><div id="msg_cont">'+e+'</div><div class="msg_close msg_clear" id=msg_sure>确定</div></div>');
+        $(".msg_close").click(function (){
+            $("#msg").remove();
+        });
+    }
+
+    $(document).ready(function(){
+        $('#home_div').click(function () {
+            if(sessionStorage.getItem('gene_ison')=='1' || sessionStorage.getItem('train_ison')=='1' || sessionStorage.getItem('eve_ison')=='1'){
+                myalert("任务进行中！请勿更新环境！");
+                return false;
+            }
+            if($('.intr_div').hasClass('current')){
+                $('.intr_div').removeClass('current');
+            }
+             if($('.eval_div').hasClass('current')){
+                $('.eval_div').removeClass('current');
+            }
+             if($('.deve_div').hasClass('current')){
+                $('.deve_div').removeClass('current');
+            }
+             if($('.about_div').hasClass('current')){
+                $('.about_div').removeClass('current');
+            }
+            $('.home_div').addClass('current');
+             gotoHtml('home.html');
+        });
+        $('#intr_div').click(function () {
+             if(sessionStorage.getItem('gene_ison')=='1' || sessionStorage.getItem('train_ison')=='1' || sessionStorage.getItem('eve_ison')=='1'){
+                myalert("任务进行中！请勿更新环境！");
+                return false;
+            }
+            if($('.home_div').hasClass('current')){
+                $('.home_div').removeClass('current');
+            }
+             if($('.eval_div').hasClass('current')){
+                $('.eval_div').removeClass('current');
+            }
+             if($('.deve_div').hasClass('current')){
+                $('.deve_div').removeClass('current');
+            }
+             if($('.about_div').hasClass('current')){
+                $('.about_div').removeClass('current');
+            }
+            $('.intr_div').addClass('current');
+            gotoHtml('introduce.html');
+        });
+         $('#eval_div').click(function () {
+              if(sessionStorage.getItem('gene_ison')=='1' || sessionStorage.getItem('train_ison')=='1' || sessionStorage.getItem('eve_ison')=='1'){
+                myalert("任务进行中！请勿更新环境！");
+                return false;
+            }
+            if($('.home_div').hasClass('current')){
+                $('.home_div').removeClass('current');
+            }
+             if($('.intr_div').hasClass('current')){
+                $('.intr_div').removeClass('current');
+            }
+             if($('.deve_div').hasClass('current')){
+                $('.deve_div').removeClass('current');
+            }
+             if($('.about_div').hasClass('current')){
+                $('.about_div').removeClass('current');
+            }
+            $('.eval_div').addClass('current');
+             gotoHtml('evaluate.html');
+        });
+         $('#deve_div').click(function () {
+             if(sessionStorage.getItem('gene_ison')=='1' || sessionStorage.getItem('train_ison')=='1' || sessionStorage.getItem('eve_ison')=='1'){
+                myalert("任务进行中！请勿更新环境！");
+                return false;
+            }
+            if($('.home_div').hasClass('current')){
+                $('.home_div').removeClass('current');
+            }
+             if($('.intr_div').hasClass('current')){
+                $('.intr_div').removeClass('current');
+            }
+             if($('.eval_div').hasClass('current')){
+                $('.eval_div').removeClass('current');
+            }
+             if($('.about_div').hasClass('current')){
+                $('.about_div').removeClass('current');
+            }
+            $('.deve_div').addClass('current');
+              gotoHtml('develop.html');
+        });
+         $('#about_div').click(function () {
+             if(sessionStorage.getItem('gene_ison')=='1' || sessionStorage.getItem('train_ison')=='1' || sessionStorage.getItem('eve_ison')=='1'){
+                myalert("任务进行中！请勿更新环境！");
+                return false;
+            }
+            if($('.home_div').hasClass('current')){
+                $('.home_div').removeClass('current');
+            }
+             if($('.intr_div').hasClass('current')){
+                $('.intr_div').removeClass('current');
+            }
+             if($('.eval_div').hasClass('current')){
+                $('.eval_div').removeClass('current');
+            }
+             if($('.deve_div').hasClass('current')){
+                $('.deve_div').removeClass('current');
+            }
+            $('.about_div').addClass('current');
+              gotoHtml('about.html');
+        });
+
+    });
+</script>
+</html>
+

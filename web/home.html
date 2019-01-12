@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpart</title>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <style type="text/css">
+
+        .main-contain{
+            width:100%;
+            height:408px;
+            margin-top:0px;
+        }
+        .getinfo,.transFun,.showinfo{
+            display: inline-block;
+            float: left;
+            height:100%;
+        }
+        .getinfo{
+            width:43%;
+            /*box-shadow: inset grey 0px 2px 8px;*/
+
+        }
+        .transFun{
+            width:14%;
+            background-color: #EEEEEE;
+            margin-left: -2px;
+            /*box-shadow: grey 0px 0px 8px;*/
+            /*height:99%;*/
+            z-index: 999;
+        }
+        .showinfo{
+            width:43%;
+            /*box-shadow: inset grey 0px 2px 8px;*/
+        }
+        input{
+            width:100%;
+            height:100%;
+            border:solid 0.5px gainsboro;
+        }
+        textarea{
+            width:98%;
+            height:98.5%;
+            border:solid 0.5px gainsboro;
+            padding:3px;
+            font-size:16px;
+            color: #505050;
+
+        }
+        .btn{
+            width:85%;
+            height:30px;
+            margin:0 auto;
+            background-color: white;
+            margin-top: 10px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 30px;
+            color: green;
+        }
+        .current_cut{
+            background-color: green;
+            color: white;
+        }
+        .btn:hover{
+            background-color: green;
+            color: white;
+        }
+
+        .cut{
+            width:100%;
+            height:65%;
+        }
+        .fun_btn{
+            width:85%;
+            height:30px;
+            margin:0 auto;
+            background-color: gray;
+            margin-top: 10px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+        .fun_btn:hover{
+            background-color:green;
+        }
+        .fun{
+            width:100%;
+            /*height:15%;*/
+        }
+        .model_dec{
+            width: 99.5%;
+            height: 30px;
+            background-color: green;
+        }
+        .model_dec p{
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            line-height: 32px;
+        }
+    </style>
+</head>
+<body>
+    <div class="model_dec">
+        <p></p>
+    </div>
+    <div class="main-contain">
+            <div class="getinfo" id="xxx">
+                <textarea  placeholder="请输入文本"></textarea>
+                <!--<input type="text" placeholder="请输入文本">-->
+            </div>
+            <div class="transFun">
+                <div class="cut">
+                    <!--<div class="btn msr">简体分词</div>-->
+
+                    <div class="btn cut_S">简体分词</div>
+                    <div class="btn cut_T">繁体分词</div>
+                    <div class="btn Jieba">结巴分词</div>
+                </div>
+                <div class="fun">
+                    <div class="fun_btn toTrandition">转繁体</div>
+                    <div class="fun_btn toSimple">转简体</div>
+                    <div class="fun_btn clean">清空</div>
+                </div>
+            </div>
+            <div class="showinfo">
+                <textarea  placeholder="结果将在这里显示" disabled="disabled"></textarea>
+                <!--<input type="text" placeholder="结果将在这里显示">-->
+            </div>
+        </div>
+</body>
+<script type="text/javascript">
+    function getinfo(){
+        var input_s =$('.getinfo textarea').val();
+//        console.log(input_s);
+        return input_s;
+    }
+    function showinfo(output_s){
+        $('.showinfo textarea').val(output_s);
+    }
+    function cleancurrent(){
+        btnlist = $('.btn')
+        for(var i=0;i< btnlist.length;i++){
+            if($(btnlist[i]).hasClass('current_cut')){
+                $(btnlist[i]).removeClass('current_cut')
+            }
+        }
+    }
+    $(document).ready(function(){
+        $('.Jieba').click(function(){
+             cleancurrent();
+
+            $('.model_dec').html('<p>分词技术由结巴分词提供</p>');
+            var input_s = getinfo();
+            var data = {
+                'input_s':input_s
+            };
+            // console.log("input_s = "+data.input_s);
+            if(data.input_s==''){
+                $('.showinfo textarea').val('输入为空！');
+                return;
+            }
+
+             $('.Jieba').addClass('current_cut');
+             $.ajax({
+                 type:'GET',
+                 url:'http://127.0.0.1:5000/cut/jieba',
+                 data:data,
+                 dataType: 'json',
+                 success: function(data) {
+                    showinfo(data.result);
+                 }
+             });
+        });
+        $('.cut_S').click(function(){
+             cleancurrent();
+             $('.model_dec').html('<p>分词技术由Sunpart提供，MSRA作为语料集，分词准确率达98.4%</p>');
+            var input_s = getinfo();
+            var data = {
+                'input_s':input_s
+            };
+            // console.log("input_s = "+data.input_s);
+            if(data.input_s==''){
+                $('.showinfo textarea').val('输入为空！');
+                return;
+            }
+            // cleancurrent();
+             $('.cut_S').addClass('current_cut');
+             $.ajax({
+                 type:'GET',
+                 url:'http://127.0.0.1:5000/cut/S',
+                 data:data,
+                 dataType: 'json',
+                 success: function(data) {
+                    showinfo(data.result);
+                 }
+             });
+        });
+        $('.cut_T').click(function(){
+            cleancurrent();
+             $('.model_dec').html('<p>分词技术由Sunpart提供，AS作为语料集，分词准确率达98.8%</p>')
+//            window.open('http://127.0.0.1:5000/');
+            var input_s = getinfo();
+            var data = {
+                'input_s':input_s
+            };
+            // console.log("input_s = "+data.input_s);
+            if(data.input_s==''){
+                $('.showinfo textarea').val('输入为空！');
+                return;
+            }
+
+            $('.cut_T').addClass('current_cut');
+             $.ajax({
+                 type:'GET',
+                 url:'http://127.0.0.1:5000/cut/T',
+                 data:data,
+                 dataType: 'json',
+                 success: function(data) {
+                    showinfo(data.result);
+                 }
+             });
+        });
+        $('.clean').click(function(){
+             cleancurrent();
+            $('.getinfo textarea').val('');
+            $('.showinfo textarea').val('');
+        });
+        $('.toSimple').click(function () {
+            var input_s = getinfo();
+            var data = {
+                'input_s':input_s
+            };
+            // console.log("input_s = "+data.input_s);
+            if(data.input_s==''){
+                $('.showinfo textarea').val('输入为空！');
+                return;
+            }
+            $.ajax({
+                 type:'GET',
+                 url:'http://127.0.0.1:5000/cut/toS',
+                 data:data,
+                 dataType: 'json',
+                 success: function(data) {
+                    $('.getinfo textarea').val(data.result);
+                    $('.showinfo textarea').val('');
+                    cleancurrent();
+                 }
+             });
+        });
+        $('.toTrandition').click(function () {
+            var input_s = getinfo();
+            var data = {
+                'input_s':input_s
+            };
+            // console.log("input_s = "+data.input_s);
+            if(data.input_s==''){
+                $('.showinfo textarea').val('输入为空！');
+                return;
+            }
+            $.ajax({
+                 type:'GET',
+                 url:'http://127.0.0.1:5000/cut/toT',
+                 data:data,
+                 dataType: 'json',
+                 success: function(data) {
+                    $('.getinfo textarea').val(data.result);
+                    $('.showinfo textarea').val('');
+                    cleancurrent();
+
+                 }
+             });
+        });
+    });
+    //             $.ajax({
+//                    type:'POST',
+//                    url:'http://127.0.0.1:5000/',
+//                    data:{inS:JSON.stringify(input_s)},
+//                    contentType :'application/x-www-form-urlencoded',//想通过post传输必须这样写后面写原因
+//                    headers:{
+////                   'Access-Control-Allow-Origin':'*'
+////                        "Content-Type":'text/html; charset=utf-8',
+//                        'enctype':"multipart/form-data"
+////                       'application/json'
+////                            "application/json
+////                        'Access-Control-Allow-Origin':'http://127.0.0.1:5000/',
+////                        'Access-Control-Allow-Credentials': 'true',
+////                        'Access-Control-Expose-Headers': 'FooBar',
+////                        'Content-Type': 'text/html; charset=utf-8'
+//                    },
+//                    xhrFields: {
+//                         withCredentials: true // 设置运行跨域操作
+//                    },
+////                    crossDomain: true,
+////                    dataType:'json',//希望服务器返回json格式的数据
+//                    success:function(data) {
+////                        alert(JSON.stringify(data));
+////                        alert(data['test'])
+//                        showinfo(data);
+//                    }
+//           });
+</script>
+</html>

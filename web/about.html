@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpart</title>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <style type="text/css">
+         .main-contain{
+            width:100%;
+            height:440px;
+            margin-top:10px;
+            /*background-color: coral;*/
+        }
+        .models{
+            display: inline-block;
+            float: left;
+            height: 440px;
+            background-color: green;
+            /*padding:3px;*/
+            /*padding-top: 5px;*/
+            border-right:grey 0.5px;
+            /*box-shadow: grey 10px 5px 0;*/
+            /*z-index:100;*/
+            overflow: scroll;
+        }
+
+        .describe p{
+            margin:0;
+            padding:0;
+            text-align: left;
+            line-height: 40px;
+            padding-left:15px;
+            font-size: 13px;
+            color: green;
+
+        }
+        .models img{
+            /*display: inline-block;*/
+            width: auto;
+            height: 95%;
+            margin-top: 11px;
+            margin-left: 23px;
+            box-shadow: grey 1px 1px 3px;
+
+        }
+        .author_info{
+            position: absolute;
+            width: 180px;
+            height: 235px;
+            background-color: #EEEEEE;
+            top: 50px;
+            left: 30px;
+            box-shadow: grey 0.5px 0.5px 5px;
+            overflow: hidden;
+             /*font-family: "Andale Mono"*/
+
+        }
+        .author_info img{
+            width: 160px;
+            margin: 10px;
+        }
+        .author_info p{
+                text-align: center;
+                /*font-family: '微软雅黑';*/
+            /*font-family: FZMiaoWuS-GB;*/
+                line-height: 5px;
+                color: green;
+                font-size: 14px;
+                margin-top: 10px;
+
+        }
+        .models pre{
+            color: #505050;
+            font-size: 16px;
+            margin-top: 130px;
+            /*font-family: '微软雅黑';*/
+            width: 90%;
+            margin-left: 5%;
+            height: auto;
+            border: none;
+            font-family: "Times New Roman";
+            line-height: 30px;
+             /*font-family: "Adobe Song Std";*/
+             /*font-family: "Adobe Fangsong Std";*/
+        }
+        .rowline{
+            width: 69%;
+            height: 10px;
+            background-color: green;
+            position: absolute;
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+ <div class="main-contain">
+        <div class="rowline"></div>
+        <div class="author_info">
+            <img src="头像.png">
+            <p style="font-size: 16px">赵  静</p>
+            <p>20144674@cqu.edu.cn</p>
+        </div>
+        <div class="models" style="background-color: white; width: 9%; border-right: solid green 10px;">
+
+         </div>
+        <div class="models" style="background-color: white; width: 10%;">
+
+        </div>
+        <div class="models info" style="background-color:white;width: 50%;">
+            <pre>
+            </pre>>
+        </div>
+         <div class="models" style="background-color: #EEEEEE;width: 30%;">
+            <img src="毕业论文封面图.png">
+         </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+
+    function load_file02(file) {
+         function ReadFile(data) {
+             $('.info').html('<pre>'+data+'</pre>');
+             e = $('.info');
+             e.scrollTop(e[0].scrollHeight);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            ReadFile(xhr.responseText);
+        };
+        try {
+            xhr.open("get",file, true);
+            xhr.send();
+        }
+        catch (ex) {
+            ReadFile(ex.message);
+            xhr.close();
+        }
+
+    }
+    function cleancurrent(){
+        btnlist = $('.btn')
+        for(var i=0;i< btnlist.length;i++){
+            if($(btnlist[i]).hasClass('current_cut')){
+                $(btnlist[i]).removeClass('current_cut')
+            }
+        }
+    }
+    $(document).ready(function() {
+        load_file02('author_info.txt');
+        $('.btn').click(function () {
+            cleancurrent();
+            $(this).addClass('current_cut');
+        });
+
+    });
+
+</script>
+</html>

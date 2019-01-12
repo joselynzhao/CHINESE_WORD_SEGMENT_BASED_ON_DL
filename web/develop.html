@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpart</title>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <style type="text/css">
+         .main-contain{
+            width:100%;
+            height:440px;
+            margin-top:10px;
+            /*background-color: coral;*/
+        }
+        .models{
+            display: inline-block;
+            float: left;
+            width:20%;
+            height: 440px;
+            background-color: #EEEEEE;
+            /*padding:3px;*/
+            /*padding-top: 5px;*/
+            border-right:grey 0.5px;
+            /*box-shadow: grey 10px 5px 0;*/
+            /*z-index:100;*/
+        }
+        .setParas{
+            width:100%;
+            height:440px;
+            /*background-color: coral;*/
+        }
+        .setPara{
+            width:100%;
+            height:60px;
+        }
+        .describe{
+            width:100%;
+            height: 30px;
+        }
+        .describe p{
+            margin:0;
+            padding:0;
+            text-align: left;
+            line-height: 40px;
+            padding-left:15px;
+            font-size: 13px;
+            color: green;
+
+        }
+        .form{
+            display: inline-block;
+            width:90%;
+            height:40px;
+            padding-left:15px;
+            /*padding-right:10px;*/
+        }
+        .windowShow{
+            display: inline-block;
+            float: left;
+            width:80%;
+            height:440px;
+            background-color: white;
+        }
+        .operateBar{
+            display: inline-block;
+            float: left;
+            width: 10%;
+            height: 100%;
+            background-color: #EEEEEE;
+        }
+        .showMian{
+            width:100%;
+            height:400px;
+            /*background-color: cornflowerblue;*/
+        }
+        .out_img{
+            display: inline-block;
+            float: left;
+            width:50%;
+            height:100%;
+
+
+        }
+        .out_msg{
+            display: inline-block;
+            float: left;
+            width:100%;
+            height:100%;
+            background-color: white;
+
+        }
+         .out_head{
+            width: 100%;
+            height: 40px;
+         }
+         .out_head p{
+             text-align: center;
+             line-height: 40px;
+             color: green;
+         }
+         .out_msg .out_head{
+              background-color:white;
+             color: #505050;
+             /*box-shadow: black 0px 5px 2px;*/
+         }
+         .out_img .out_head{
+              background-color: darkgray;
+             color: white;
+         }
+
+        .out_contain{
+            width: 100%;
+            height: 355px;
+            box-shadow: inset grey 0px 2px 8px;
+            padding-top: 5px;
+            overflow: scroll;
+
+        }
+        .out_contain pre{
+            /*text-align: center;*/
+            padding-left:15px;
+            font-size: 16px;
+            color: grey;
+        }
+        .out_contain p{
+             text-align: center;
+            margin-top: 200px;
+        }
+        .out_msg .out_contain{
+            color:white;
+
+        }
+        .out_img .out_contain{
+            color: grey;
+
+        }
+        .showMian p{
+            margin: 0;
+            padding: 0;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .showResult{
+            width:96.7%;
+            height:35px;
+            background-color: #EEEEEE;
+            /*background-color:green;*/
+            /*box-shadow:;*/
+            z-index: 100;
+            text-align: center;
+            padding-top:5px;
+            padding-left: 30px;
+            color: white;
+            line-height: 35px;
+        }
+        .showResult p{
+            margin: 0;
+            padding: 0;
+        }
+
+        .fun_btn{
+            display: inline-block;
+            float: left;
+            width:120px;
+            margin-right: 20px;
+            height:30px;
+            /*margin:0 auto;*/
+            /*background-color: gray;*/
+            /*margin-top: 10px;*/
+            border-radius: 10px;
+            border: 1px solid white;
+            text-align: center;
+            line-height: 30px;
+            background-color:white;
+            color:green;
+        }
+        .fun_btn:hover{
+            background-color:green;
+            color:white;
+        }
+
+
+
+        /*下拉框样式设计*/
+        select {
+              /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+              border: solid 0.5px  grey;
+            width:90%;
+            height:80%;
+            /*text-align: center;*/
+            color:#505050;
+            font-size:15px;
+
+
+              /*很关键：将默认的select选择框样式清除*/
+              appearance:none;
+              -moz-appearance:none;
+              -webkit-appearance:none;
+
+              /*在选择框的最右侧中间显示小箭头图片*/
+              background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+
+
+              /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+            /*padding-right: 14px;*/
+            padding-left:5px;
+            }
+
+
+            /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+         select::-ms-expand { display: none; }
+
+         /*弹出框样式 ——start*/
+        #msg{
+            width:300px;
+            position: fixed;
+            z-index:999;
+            top: 49%;
+            margin-top:-80px;
+            left:50%;
+            margin-left:-133px;
+            background:#fff;
+            box-shadow:5px 5px 8px #999;
+            font-size:17px;
+            color: green;
+            border:1px solid #f8f8f8;
+            text-align: center;
+            line-height: 2rem;
+            display:inline-block;
+            padding-bottom:20px;
+            border-radius:10px;
+        }
+        #msg_top{
+            background: darkseagreen;
+            /*background:#f8f8f8;*/
+            padding:5px 15px 5px 20px;
+            text-align:left;
+
+        }
+        #msg_top span{
+            font-size:18px;
+            float:right;
+            cursor:pointer;
+        }
+        #msg_cont{
+            padding:15px 20px 20px;
+            text-align:left;
+        }
+        .msg_clear{
+            display:inline-block;
+            color:#fff;
+            padding:1px 15px;
+            background: green;
+            border-radius:2px;
+            float:right;
+            margin-right:15px;
+            cursor:pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="main-contain">
+        <div class="models">
+            <div class="setParas">
+                <div class="selectGenerator setPara">
+                    <div class="describe"><p>Generator</p>
+                    </div>
+                    <div class="form">
+                        <select id="selectGenerator" class="select">
+                            <option value="2">深层LSTM</option>
+                            <option value="1" selected="selected">浅层BLSTM</option>
+                            <option value="3">深层BLSTM</option>
+                            <!--<option value="3">Jieba</option>-->
+                        </select>
+                     </div>
+                </div>
+                <div class="selectChars setPara">
+                    <div class="describe">
+                        <p>Dictionary</p>
+                    </div>
+                    <div class="form">
+                        <select id="selectChars" class="select">
+                            <option value="PKU">PKU_chars</option>
+                            <option value="MSR">MSR_chars</option>
+                            <option value="AS">AS_chars</option>
+                        </select>
+                     </div>
+                </div>
+                <div class="selectWordSize setPara">
+                    <div class="describe">
+                        <p>Word size</p>
+                    </div>
+                    <div class="form">
+                        <select id="selectWordSize" class="select">
+                            <option value="64">64</option>
+                            <option value="96">96</option>
+                            <option value="128" selected="selected">128</option>
+                            <option value="160">160</option>
+                            <option value="192">192</option>
+                        </select>
+                     </div>
+                </div>
+                <div class="selectNumNode setPara">
+                    <div class="describe">
+                        <p>LSTM node</p>
+                    </div>
+                    <div class="form">
+                        <select id="selectNumNode" class="select">
+                            <option value="32">32</option>
+                            <option value="64" selected="selected">64</option>
+                            <option value="128">128</option>
+                            <option value="256">256</option>
+                        </select>
+                     </div>
+                </div>
+                <div class="selectEpoch setPara">
+                    <div class="describe"><p>Epoch</p></div>
+                    <div class="form">
+                        <select id="selectEpoch" class="select">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                        </select>
+                     </div>
+                </div>
+                <div class="selectEpoch setPara">
+                    <div class="describe"><p>Batch size</p></div>
+                    <div class="form">
+                        <select id="selectBatch" class="select">
+                            <option value="512">512</option>
+                            <option value="1024" selected="selected">1024</option>
+                            <option value="2048">2048</option>
+                        </select>
+                     </div>
+                </div>
+                <div class="selectTrainWay setPara">
+                    <div class="describe"><p>Train way</p></div>
+                    <div class="form">
+                        <select id="selectTrainWay" class="select">
+                            <option value="0">only train-1</option>
+                            <option value="1">only train</option>
+                            <option value="2" selected="selected">test in train</option>
+                            <option value="3">test out train</option>
+                        </select>
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="windowShow">
+            <div class="showMian">
+                <div class="out_msg">
+                    <div class="out_head">
+                        <p>Output Messages</p>
+                    </div>
+                    <div class="out_contain msg_contain">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="showResult">
+                <div class="fun_btn generate" >Generate</div>
+                <!--<div class="fun_btn over">Over</div>-->
+                <div class="fun_btn train">Train</div>
+                <div class="fun_btn showModel">Show model</div>
+
+                <div class="fun_btn trainFile">Train file</div>
+                 <div class="fun_btn costFile">Cost file</div>
+                <div class="fun_btn clean">Clean</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var train_ison;
+    var dev_train_ajax;
+    var gene_ison;
+    var dev_gene_ajax;
+    var b;
+
+    //弹出框
+    function myalert(e){
+        $("body").append('<div id="msg"><div id="msg_top">提示<span class="msg_close">×</span></div><div id="msg_cont">'+e+'</div><div class="msg_close msg_clear" id=msg_sure>确定</div></div>');
+        $(".msg_close").click(function (){
+            $("#msg").remove();
+        });
+    }
+    function eva_setInterval() {
+        b = setInterval("load_file02('dev_model_train.txt')",100);
+    }
+
+    function load_file02(file) {
+         function ReadFile(data) {
+             $('.msg_contain').html('<pre>'+data+'</pre>');
+             e = $('.msg_contain');
+             e.scrollTop(e[0].scrollHeight);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            ReadFile(xhr.responseText);
+        };
+        try {
+            xhr.open("get",file, true);
+            xhr.send();
+        }
+        catch (ex) {
+            ReadFile(ex.message);
+            xhr.close();
+        }
+
+    }
+    $(document).ready(function () {
+        $('.generate').click(function () {
+            if(sessionStorage.getItem('eve_ison')=='1'){
+                myalert("暂不能生成模型，请等模型评估完成后再尝试！");
+                return false;
+            }
+            else{
+                 train_ison = sessionStorage.getItem("train_ison");
+                 console.log("train_ison="+train_ison);
+                 if(train_ison=='1'){
+                     myalert("模型正在训练中！如果需要重新生成模型，请等模型训练完成之后执行！");
+                     return false;
+                 }
+                 else{
+                     gene_ison = sessionStorage.getItem('gene_ison');
+                     if(!gene_ison || gene_ison=='0'){
+                         sessionStorage.setItem('gene_ison','1');
+                          $('.msg_contain').html('<pre>模型正在生成中，请稍等……</pre>');
+                         var generate_way = $('#selectGenerator option:selected').val();
+                         var chars = $('#selectChars option:selected').val();
+                         // var maxlen = $('#selectMaxlen option:selected').val();
+                         var word_size = $('#selectWordSize option:selected').val();
+                         var num_lstm = $('#selectNumNode option:selected').val();
+                         var data={
+                             'generate_way':generate_way,
+                             'chars':chars,
+                             // 'maxlen':maxlen,
+                             'word_size':word_size,
+                             'num_lstm':num_lstm
+                         };
+                         localStorage.setItem("model_char",chars);
+                         // 记录下生成模型时的chars和word——size
+                         console.log(generate_way+','+chars+','+word_size+','+num_lstm);
+                         dev_gene_ajax=$.ajax({
+                             type:'GET',
+                             url:'http://127.0.0.1:5000/dev/generate',
+                             data:data,
+                             dataType:'json',
+                             success:function (data){
+                                 console.log(data.status);
+                                 if(data.status == '0'){
+                                     // 将生成文件过程中的输出加载出来
+                                     load_file02('dev_model_info.txt');
+                                 }
+                                 else{
+                                     console.log(data.msg);
+                                 }
+                             }
+
+                         });
+                         $.when(dev_gene_ajax).done(function () {
+                              sessionStorage.setItem('gene_ison','0');
+                         });
+
+                     }
+                     else{
+                         myalert("生成模型正在进行中，请勿重复操作！");
+                         return false;
+                     }
+                 }
+            }
+        });
+        $('.train').click(function () {
+            // sessionStorage.setItem("train_ison",'0');
+            console.log("gene_ison="+sessionStorage.getItem('gene_ison'));
+            if(sessionStorage.getItem('gene_ison')=='1'){
+                myalert("暂不能训练模型，请等模型生成完成后再尝试！")
+            }
+            else if(sessionStorage.getItem('eve_ison')=='1'){
+                myalert("暂不能训练模型，请等模型评估完成后再尝试！");
+                return false;
+            }
+            else{
+                train_ison = sessionStorage.getItem("train_ison");
+                console.log("train_ison="+train_ison);
+                var chars = $('#selectChars option:selected').val();
+                console.log(localStorage.getItem("model_char"));
+                if (chars != localStorage.getItem("model_char") || localStorage.getItem("model_char")=='null') {
+                         myalert(chars + '与模型参数' + localStorage.getItem("model_char") + '不匹配，请重新选择参数，或者重新生成模型！');
+                         // sessionStorage.setItem("train_ison",'0');
+                         // console.log("训练异常退出！train_ison="+sessionStorage.getItem("train_ison"));
+                         return false;
+                }
+                else if(!train_ison || train_ison=='0'){
+                    // $('.msg_contain').html('<pre>正在准备，请稍等……</pre>');
+                     sessionStorage.setItem("train_ison",'1');
+                     var batch_size = $('#selectBatch option:selected').val();
+                     var epoch = $('#selectEpoch option:selected').val();
+                     var train_way = $('#selectTrainWay option:selected').val();
+
+                     var data = {
+                         'train_way': train_way,
+                         'chars': chars,
+                         'batch_size': batch_size,
+                         // 'word_size':word_size,
+                         'epoch': epoch
+                     };
+                     console.log(train_way + ',' + chars + ',' + batch_size + ',' + epoch);
+                     eva_setInterval();
+                     dev_train_ajax=$.ajax({
+                         type: 'GET',
+                         url: 'http://127.0.0.1:5000/dev/train',
+                         data: data,
+                         dataType: 'json',
+                         success: function (data) {
+                             console.log(data.status);
+                             if (data.status == '0') {
+                                 // clearInterval(b);
+                                 myalert("训练已完成！");
+                             }
+                             else {
+                                  myalert(data.msg);
+                             }
+
+                         }
+                     });
+                     $.when(dev_train_ajax).done(function () {
+                             sessionStorage.setItem("train_ison",'0');
+                             console.log("训练完成！train_ison="+sessionStorage.getItem("train_ison"));
+                             // clearInterval(b);
+                             setTimeout("clearInterval(b)","1000");
+                     });
+                 }
+                 else{ //training
+                     eva_setInterval();
+                     myalert("模型正在训练中！");
+                    // load_file02('dev_model_train.txt');
+                 }
+
+            }
+
+        });
+        $('.showModel').click(function () {
+            clearInterval(b);
+            load_file02('dev_model_info.txt');
+        });
+        $('.clean').click(function () {
+            clearInterval(b);
+            $('.msg_contain').html('');
+        });
+        $('.costFile').click(function () {
+            clearInterval(b);
+            load_file02('dev_cost_file.txt');
+        });
+        $('.trainFile').click(function () {
+            clearInterval(b);
+            load_file02('dev_model_train.txt');
+        });
+    });
+</script>
+</html>

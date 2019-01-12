@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpart</title>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <style type="text/css">
+         .main-contain{
+            width:100%;
+            height:440px;
+            margin-top:10px;
+            /*background-color: coral;*/
+        }
+        .models{
+            display: inline-block;
+            float: left;
+            width:20%;
+            height: 440px;
+            background-color: #EEEEEE;
+            /*padding:3px;*/
+            /*padding-top: 5px;*/
+            border-right:grey 0.5px;
+            /*box-shadow: grey 10px 5px 0;*/
+            /*z-index:100;*/
+            overflow: scroll;
+        }
+        .describe{
+            width:100%;
+            height: 30px;
+        }
+        .describe p{
+            margin:0;
+            padding:0;
+            text-align: left;
+            line-height: 40px;
+            padding-left:15px;
+            font-size: 13px;
+            color: green;
+
+        }
+        .windowShow{
+            display: inline-block;
+            float: left;
+            width:60%;
+            height:440px;
+            background-color: white;
+            overflow: scroll;
+            box-shadow: inset grey 0px 2px 8px;
+        }
+        .abstract{
+            display: inline-block;
+            float: left;
+            width: 20%;
+            height: 440px;
+            background-color: green;
+        }
+
+
+
+
+        /*下拉框样式设计*/
+        select {
+              /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+              border: solid 0.5px  grey;
+            width:90%;
+            height:80%;
+            /*text-align: center;*/
+            color:#505050;
+            font-size:15px;
+
+
+              /*很关键：将默认的select选择框样式清除*/
+              appearance:none;
+              -moz-appearance:none;
+              -webkit-appearance:none;
+
+              /*在选择框的最右侧中间显示小箭头图片*/
+              background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+
+
+              /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+            /*padding-right: 14px;*/
+            padding-left:5px;
+            }
+
+
+            /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+         select::-ms-expand { display: none;
+         }
+        .btn{
+            width:85%;
+            height:30px;
+            margin:0 auto;
+            background-color: white;
+            margin-top: 10px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 30px;
+            color: green;
+        }
+        .current_cut{
+            background-color: green;
+            color: white;
+        }
+        .btn:hover{
+            background-color: green;
+            color: white;
+        }
+
+
+        .windowShow textarea{
+            width:89%;
+            height:81.5%;
+            border:solid 0.5px gainsboro;
+            padding:40px;
+            padding-right: 37px;
+            font-size:16px;
+            color: #505050;
+
+        }
+         .windowShow pre{
+            width:89%;
+             height: auto;
+            /*height:81.5%;*/
+            /*border:solid 0.5px gainsboro;*/
+            padding:20px;
+            padding-right: 37px;
+            font-size:16px;
+             font-family: "Times New Roman";
+             /*font-family: DFPLiJinHeiW8-GB;*/
+             /*font-family: "Adobe Fangsong Std";*/
+            color: #505050;
+             line-height: 30px;
+        }
+         .chara{
+             width: 100%;
+             height: auto;
+         }
+         .photo{
+             width: 100%;
+             height: auto;
+         }
+         .windowShow img{
+             width: 99%;
+                height: auto;
+                border: grey solid 0.5px;
+                margin-left: 0px;
+                margin-top: 5px;
+
+
+         }
+        .abstract textarea{
+            width:92%;
+            height:75%;
+            /*border:solid 0.5px gainsboro;*/
+            padding-top: 100px;
+            padding-bottom: 10px;
+            padding-left: 15px;
+            padding-right: 2px;
+            font-size:18px;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            background: none;
+            border:none;
+        }
+
+
+    </style>
+</head>
+<body>
+ <div class="main-contain">
+        <div class="models">
+            <div class="describe"><p>Models</p></div>
+            <div class="btn sample_model current_cut">简体分词</div>
+            <div class="btn complite_model">繁体分词</div>
+            <div class="btn jiebacut">结巴分词</div>
+
+            <div class="describe"><p>Datas</p></div>
+            <div class="btn msr">MSR/PKU/AS</div>
+        </div>
+        <div class="windowShow">
+            <div class="chara">
+
+            </div>
+            <div class="photo"></div>
+
+        </div>
+        <div class="abstract">
+            <textarea disabled="disabled" placeholder="正在加载......">
+               </textarea>
+            <!--<img src="毕业论文封面图.png">-->
+
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+
+    function load_file02(file) {
+         function ReadFile(data) {
+             // $('.windowShow textarea').html(data);
+             $('.chara').html('<pre>'+data+'</pre>');
+             // e = $('.info');
+             // e.scrollTop(e[0].scrollHeight);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            ReadFile(xhr.responseText);
+        };
+        try {
+            xhr.open("get",file, true);
+            xhr.send();
+        }
+        catch (ex) {
+            ReadFile(ex.message);
+            xhr.close();
+        }
+
+    }
+    function cleancurrent(){
+        btnlist = $('.btn')
+        for(var i=0;i< btnlist.length;i++){
+            if($(btnlist[i]).hasClass('current_cut')){
+                $(btnlist[i]).removeClass('current_cut')
+            }
+        }
+    }
+    $(document).ready(function() {
+        load_file02("intr_sample.txt");
+            // console.log("添加图片");
+
+        $('.photo').html('<img src="简体中文曲线图.png">');
+        var abstract = "BLSTM神经网络\nMSRA语料集训练\n简体中文\n准确率98.9%";
+        $('.abstract textarea').html(abstract);
+
+        $('.btn').click(function () {
+            cleancurrent();
+            $(this).addClass('current_cut');
+        });
+        $('.complite_model').click(function () {
+            load_file02("intr_as.txt");
+            // console.log("添加图片");
+            $('.photo').html('<img src="繁体中文取消图.png">');
+            var abstract = "BLSTM神经网络\nAS语料集训练\n繁体中文\n准确率98.9%";
+            $('.abstract textarea').html(abstract);
+        });
+         $('.sample_model').click(function () {
+            load_file02("intr_sample.txt");
+            // console.log("添加图片");
+            $('.photo').html('<img src="简体中文曲线图.png">');
+            var abstract = "BLSTM神经网络\nMSRA语料集训练\n简体中文\n准确率98.9%";
+            $('.abstract textarea').html(abstract);
+        });
+         $('.jiebacut').click(function () {
+            load_file02("intr_jieba.txt");
+            // console.log("添加图片");
+            $('.photo').empty();
+            var abstract = "结巴分词\n全模型\n精确模型\n搜索引擎";
+            $('.abstract textarea').html(abstract);
+        });
+        $('.msr').click(function () {
+            load_file02("intr_msr.txt");
+            // console.log("添加图片");
+            $('.photo').empty();
+            var abstract = "语料集\n北京大学\n微软亚洲研究院\n中国科学院";
+            $('.abstract textarea').html(abstract);
+        });
+
+    });
+
+</script>
+</html>

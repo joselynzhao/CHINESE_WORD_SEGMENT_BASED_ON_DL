@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpart</title>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+</head>
+<div style="width:180px;height:250px;overflow:auto" id="g">
+测试测试<br />测试测试<br /><br />测试测试<br /><br />测试测试<br /><br />测试测试<br /><br />测试测试<br /><br />测试测试<br /><br /><br /><br />测试测试<br /><br /><br />测试测试<br />测试测试<br /><br /><br /><br /><br /></div>
+<a href="javascript:add()">添加</a>
+<script>
+    function $(v) {
+        return document.getElementById(v);
+    }
+    function add(){
+        var c = $("g");
+        c.innerHTML=c.innerHTML+"测试测试测试测试<br />";//测试添加
+        $("g").scrollTop=c.scrollHeight-c.clientHeight;//滚动到底部
+    }
+</script>
+<!--<body>-->
+<!--jsReadFile:<input type="file" onchange="jsReadFiles(this.files)"/>-->
+<!--<button onclick="jsReadFiles();">read</button>-->
+<!--</body>-->
+<!--&lt;!&ndash;<script src="jquery-3.2.0.min.js"></script>&ndash;&gt;-->
+<!--<script>-->
+<!--//js 读取文件-->
+    <!--function jsReadFiles(files) {-->
+        <!--if (files.length) {-->
+            <!--var file = files[0];-->
+            <!--var reader = new FileReader();//new一个FileReader实例-->
+            <!--if (/text+/.test(file.type)) {//判断文件类型，是不是text类型-->
+                <!--reader.onload = function() {-->
+                    <!--$('body').append('<pre>' + this.result + '</pre>');-->
+                <!--}-->
+                <!--reader.readAsText(file);-->
+            <!--} else if(/image+/.test(file.type)) {//判断文件是不是imgage类型-->
+                <!--reader.onload = function() {-->
+                    <!--$('body').append('<img src="' + this.result + '"/>');-->
+                <!--}-->
+                <!--reader.readAsDataURL(file);-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+       <!--function load_evaluate_file(files) {-->
+        <!--console.log("正在执行加载文件操作！");-->
+        <!--if (files.length) {-->
+            <!--var file = files[0];-->
+            <!--var reader = new FileReader();//new一个FileReader实例-->
+            <!--if (/text+/.test(file.type)) {//判断文件类型，是不是text类型-->
+                <!--reader.onload = function(){-->
+                    <!--console.log(this.result);-->
+                    <!--$('.msg_contain').html('<pre>' + this.result + '</pre>');-->
+                <!--}-->
+                <!--reader.readAsText(file);-->
+            <!--} else if(/image+/.test(file.type)) {//判断文件是不是imgage类型-->
+                <!--reader.onload = function() {-->
+                    <!--$('.msg_contain').html('<img src="' + this.result + '"/>');-->
+                <!--}-->
+                <!--reader.readAsDataURL(file);-->
+            <!--}-->
+            <!--else{-->
+                <!--console.log("文件类型错误！");-->
+            <!--}-->
+        <!--}-->
+        <!--else{-->
+            <!--console.log("文件读取错误！");-->
+        <!--}-->
+    <!--}-->
+    <!--function load_file01(file) {-->
+        <!--var fso;-->
+        <!--try {-->
+            <!--fso=new ActiveXObject("Scripting.FileSystemObject");-->
+        <!--}-->
+        <!--catch (e) {-->
+            <!--alert("当前浏览器不支持");-->
+            <!--return;-->
+        <!--}-->
+        <!--var openf1 = fso.OpenTextFile(file);-->
+        <!--str = openf1.ReadAll();-->
+        <!--alert("里面的内容为'" + str + "'");-->
+
+    <!--}-->
+<!--</script>-->
+</html>
